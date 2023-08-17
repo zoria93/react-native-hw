@@ -191,7 +191,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: "#f6f6f6",
     resizeMode: "cover",
-    // marginTop: "-30%",
     marginTop: -110,
     marginLeft: "auto",
     marginRight: "auto",
@@ -250,11 +249,4 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     marginBottom: 66,
   },
-  // homeIndicator: {
-  //   width: 134,
-  //   height: 5,
-  //   borderRadius: 100,
-  //   background: "black",
-  //   marginBottom: 8,
-  // },
 });

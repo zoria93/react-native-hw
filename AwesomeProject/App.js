@@ -39,8 +39,6 @@ export default function App() {
             isShownKeyboard={isShownKeyboard}
             setIsShownKeyboard={setIsShownKeyboard}
           /> */}
-
-          {/* <PostsScreen /> */}
         </ImageBackground>
       </TouchableWithoutFeedback>
     </>
