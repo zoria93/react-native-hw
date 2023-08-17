@@ -30,15 +30,15 @@ export default function App() {
           style={styles.image}
           resizeMode="cover"
         >
-          <RegistrationScreen
-            isShownKeyboard={isShownKeyboard}
-            setIsShownKeyboard={setIsShownKeyboard}
-          />
-
-          {/* <LoginScreen
+          {/* <RegistrationScreen
             isShownKeyboard={isShownKeyboard}
             setIsShownKeyboard={setIsShownKeyboard}
           /> */}
+
+          <LoginScreen
+            isShownKeyboard={isShownKeyboard}
+            setIsShownKeyboard={setIsShownKeyboard}
+          />
         </ImageBackground>
       </TouchableWithoutFeedback>
     </>
@@ -54,12 +54,4 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
   },
-
-  // homeIndicator: {
-  //   width: 134,
-  //   height: 5,
-  //   borderRadius: 100,
-  //   background: "black",
-  //   marginBottom: 8,
-  // },
 });
