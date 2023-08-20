@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 
 import {
   StyleSheet,
@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   Pressable,
+  Image,
 } from "react-native";
 
 import {
@@ -18,19 +19,27 @@ import {
   Roboto_500Medium,
 } from "@expo-google-fonts/roboto";
 
-import SvgComponent from "../components/SvgComponent";
+import SvgComponentDel from "../assets/images/add-1.svg";
+import SvgComponent from "../assets/images/add-2.svg";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native";
+import CustomImgBg from "../components/CustomImgBg";
+import photo from "../assets/images/userPhoto.jpg";
+import { ImageBackground } from "react-native";
+import { AuthContext } from "../components/AuthProvider";
 
-export default function RegistrationScreen({
-  isShownKeyboard,
-  setIsShownKeyboard,
-}) {
+export default function RegistrationScreen() {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isHiddenPassword, setIsHiddenPassword] = useState(true);
+  const [isShownKeyboard, setIsShownKeyboard] = useState(false);
+  const [userPhoto, setUserPhoto] = useState(null);
+  const { isAuth, setIsAuth } = useContext(AuthContext);
   const loginHandler = (text) => setLogin(text);
   const passwordHandler = (text) => setPassword(text);
   const emailHandler = (text) => setEmail(text);
+  const navigation = useNavigation();
 
   const reset = () => {
     setLogin("");
@@ -55,6 +64,8 @@ export default function RegistrationScreen({
     );
     setIsShownKeyboard(false);
     Keyboard.dismiss();
+    setIsAuth(true);
+    navigation.navigate("Home", { screen: "PostsScreen" });
     reset();
   };
 
@@ -78,87 +89,130 @@ export default function RegistrationScreen({
 
   return (
     <>
-      <TouchableWithoutFeedback onPress={onPressWithoutFeedback}>
-        <View
-          style={{
-            ...styles.form,
-            marginBottom: isShownKeyboard ? -162 : 0,
-          }}
+      <TouchableWithoutFeedback
+        style={styles.mainContainer}
+        onPress={onPressWithoutFeedback}
+      >
+        <ImageBackground
+          source={require("../assets/images/bg-image.png")}
+          style={styles.image}
+          resizeMode="cover"
         >
-          <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
-          >
-            <View style={styles.avatarWrapper}>
-              <SvgComponent />
-            </View>
-            <Text style={styles.title}>Реєстрація</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Логін"
-              placeholderTextColor={"#BDBDBD"}
-              name="login"
-              value={login}
-              onChangeText={loginHandler}
-              onFocus={() => setIsShownKeyboard(true)}
-            />
-            <TextInput
-              style={{ ...styles.input, marginTop: 16 }}
-              placeholder="Адреса електронної пошти"
-              placeholderTextColor={"#BDBDBD"}
-              name="email"
-              value={email}
-              onChangeText={emailHandler}
-              onFocus={() => setIsShownKeyboard(true)}
-            />
-            <View style={{ position: "relative", width: "100%" }}>
-              <TextInput
-                style={{
-                  ...styles.input,
-                  marginTop: 16,
-                }}
-                placeholder="Пароль"
-                placeholderTextColor={"#BDBDBD"}
-                name="password"
-                value={password}
-                onChangeText={passwordHandler}
-                secureTextEntry={isHiddenPassword}
-                onFocus={() => setIsShownKeyboard(true)}
-              />
-              <Pressable
-                onPress={togglePassword}
-                style={{
-                  position: "absolute",
-                  right: 16,
-                  bottom: 8,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#1B4371",
-                    fontSize: 16,
-                    paddingTop: 8,
-                    paddingBottom: 8,
-                  }}
-                >
-                  {isHiddenPassword ? "Показати" : "Сховати"}
-                </Text>
-              </Pressable>
-            </View>
-            <Pressable
-              title={"Register"}
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed ? "#c75502" : "#FF6C00",
-                },
-                styles.btn,
-              ]}
-              onPress={onRegister}
+          {/* <CustomImgBg> */}
+          <TouchableWithoutFeedback onPress={onPressWithoutFeedback}>
+            <View
+              style={{
+                ...styles.form,
+                marginBottom: isShownKeyboard ? -162 : 0,
+              }}
             >
-              <Text style={styles.btnTitle}>Зареєстуватися</Text>
-            </Pressable>
-            <Text style={styles.linkTitle}>Вже є акаунт? Увійти</Text>
-          </KeyboardAvoidingView>
-        </View>
+              <KeyboardAvoidingView
+                behavior={Platform.OS == "ios" ? "padding" : "height"}
+              >
+                <View style={styles.avatarWrapper}>
+                  {userPhoto && (
+                    <Image style={{ borderRadius: 16 }} source={userPhoto} />
+                  )}
+                  <Pressable
+                    onPressOut={
+                      userPhoto
+                        ? () => setUserPhoto(null)
+                        : () => setUserPhoto(photo)
+                    }
+                  >
+                    {userPhoto ? (
+                      <SvgComponentDel
+                        style={{ position: "absolute", bottom: 9, right: -18 }}
+                      />
+                    ) : (
+                      <SvgComponent
+                        style={{ position: "absolute", top: 75, right: -18 }}
+                      />
+                    )}
+                  </Pressable>
+                </View>
+                <Text style={styles.title}>Реєстрація</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Логін"
+                  placeholderTextColor={"#BDBDBD"}
+                  name="login"
+                  value={login}
+                  onChangeText={loginHandler}
+                  onFocus={() => setIsShownKeyboard(true)}
+                />
+                <TextInput
+                  style={{ ...styles.input, marginTop: 16 }}
+                  placeholder="Адреса електронної пошти"
+                  placeholderTextColor={"#BDBDBD"}
+                  name="email"
+                  value={email}
+                  onChangeText={emailHandler}
+                  onFocus={() => setIsShownKeyboard(true)}
+                />
+                <View style={{ position: "relative", width: "100%" }}>
+                  <TextInput
+                    style={{
+                      ...styles.input,
+                      marginTop: 16,
+                    }}
+                    placeholder="Пароль"
+                    placeholderTextColor={"#BDBDBD"}
+                    name="password"
+                    value={password}
+                    onChangeText={passwordHandler}
+                    secureTextEntry={isHiddenPassword}
+                    onFocus={() => setIsShownKeyboard(true)}
+                  />
+                  <Pressable
+                    onPress={togglePassword}
+                    style={{
+                      position: "absolute",
+                      right: 16,
+                      bottom: 8,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "#1B4371",
+                        fontSize: 16,
+                        paddingTop: 8,
+                        paddingBottom: 8,
+                      }}
+                    >
+                      {isHiddenPassword ? "Показати" : "Сховати"}
+                    </Text>
+                  </Pressable>
+                </View>
+                <Pressable
+                  title={"Register"}
+                  style={({ pressed }) => [
+                    {
+                      backgroundColor: pressed ? "#c75502" : "#FF6C00",
+                    },
+                    styles.btn,
+                  ]}
+                  onPress={onRegister}
+                >
+                  <Text style={styles.btnTitle}>Зареєстуватися</Text>
+                </Pressable>
+                <TouchableOpacity>
+                  <Text style={styles.linkTitle}>
+                    {" "}
+                    Вже є акаунт?{" "}
+                    <Text
+                      style={styles.linkUnderlined}
+                      onPress={() => navigation.navigate("Login")}
+                    >
+                      Увійти
+                    </Text>
+                  </Text>
+                </TouchableOpacity>
+              </KeyboardAvoidingView>
+            </View>
+          </TouchableWithoutFeedback>
+        </ImageBackground>
+        {/* </CustomImgBg> */}
       </TouchableWithoutFeedback>
     </>
   );
@@ -191,11 +245,20 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: "#f6f6f6",
     resizeMode: "cover",
+    // marginTop: "-30%",
     marginTop: -110,
     marginLeft: "auto",
     marginRight: "auto",
     position: "relative",
   },
+
+  // iconContainer: {
+  //   position: "absolute",
+  //   width: 25,
+  //   height: 25,
+  //   bottom: 9,
+  //   left: 105,
+  // },
 
   title: {
     fontFamily: "Roboto_500Medium",
@@ -248,5 +311,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     marginBottom: 66,
+  },
+  linkUnderlined: {
+    fontSize: 16,
+    textDecorationLine: "underline",
+    textDecorationStyle: "solid",
+    textDecorationColor: "#1b4371",
   },
 });

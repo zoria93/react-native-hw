@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,19 +9,20 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   Pressable,
+  ImageBackground,
 } from "react-native";
 
-import {
-  useFonts,
-  Roboto_400Regular,
-  Roboto_500Medium,
-} from "@expo-google-fonts/roboto";
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native";
+import { AuthContext } from "../components/AuthProvider";
 
-export default function LoginScreen({ isShownKeyboard, setIsShownKeyboard }) {
+export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isHiddenPassword, setIsHiddenPassword] = useState(true);
-
+  const [isShownKeyboard, setIsShownKeyboard] = useState(false);
+  const navigation = useNavigation();
+  const { isAuth, setIsAuth } = useContext(AuthContext);
   const passwordHandler = (text) => setPassword(text);
   const emailHandler = (text) => setEmail(text);
 
@@ -45,6 +46,8 @@ export default function LoginScreen({ isShownKeyboard, setIsShownKeyboard }) {
     console.log("Login form data: ", `email: ${email}, password: ${password}`);
     setIsShownKeyboard(false);
     Keyboard.dismiss();
+    setIsAuth(true);
+    navigation.navigate("Home", { screen: "PostsScreen" });
     reset();
   };
 
@@ -52,89 +55,99 @@ export default function LoginScreen({ isShownKeyboard, setIsShownKeyboard }) {
     setIsHiddenPassword((prev) => !prev);
   };
 
-  const [fontsLoaded] = useFonts({
-    Roboto_400Regular,
-    Roboto_500Medium,
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
   return (
     <>
-      <TouchableWithoutFeedback onPress={onPressWithoutFeedback}>
-        <View
-          style={{
-            ...styles.form,
-            marginBottom: isShownKeyboard ? -238 : 0,
-          }}
+      <TouchableWithoutFeedback
+        style={styles.mainContainer}
+        onPress={onPressWithoutFeedback}
+      >
+        <ImageBackground
+          source={require("../assets/images/bg-image.png")}
+          style={styles.image}
+          resizeMode="cover"
         >
-          <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
-          >
-            <Text style={styles.title}>Увійти</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Адреса електронної пошти"
-              placeholderTextColor={"#BDBDBD"}
-              name="email"
-              value={email}
-              onChangeText={emailHandler}
-              onFocus={() => setIsShownKeyboard(true)}
-            />
-            <View style={{ position: "relative", width: "100%" }}>
-              <TextInput
-                style={{
-                  ...styles.input,
-                  marginTop: 16,
-                }}
-                placeholder="Пароль"
-                placeholderTextColor={"#BDBDBD"}
-                name="password"
-                value={password}
-                onChangeText={passwordHandler}
-                secureTextEntry={isHiddenPassword}
-                onFocus={() => setIsShownKeyboard(true)}
-              />
-              <Pressable
-                onPress={togglePassword}
-                style={{
-                  position: "absolute",
-                  right: 16,
-                  bottom: 8,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#1B4371",
-                    fontSize: 16,
-                    paddingTop: 8,
-                    paddingBottom: 8,
-                  }}
-                >
-                  {" "}
-                  {isHiddenPassword ? "Показати" : "Сховати"}
-                </Text>
-              </Pressable>
-            </View>
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed ? "#c75502" : "#FF6C00",
-                },
-                styles.btn,
-              ]}
-              onPress={onLogin}
+          <TouchableWithoutFeedback onPress={onPressWithoutFeedback}>
+            <View
+              style={{
+                ...styles.form,
+                marginBottom: isShownKeyboard ? -238 : 0,
+              }}
             >
-              <Text style={styles.btnTitle}>Увійти</Text>
-            </Pressable>
-            <Text style={styles.linkTitle}>
-              Немає акаунту?{" "}
-              <Text style={styles.linkUnderlined}>Зареєструватися</Text>
-            </Text>
-          </KeyboardAvoidingView>
-        </View>
+              <KeyboardAvoidingView
+                behavior={Platform.OS == "ios" ? "padding" : "height"}
+              >
+                <Text style={styles.title}>Увійти</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Адреса електронної пошти"
+                  placeholderTextColor={"#BDBDBD"}
+                  name="email"
+                  value={email}
+                  onChangeText={emailHandler}
+                  onFocus={() => setIsShownKeyboard(true)}
+                />
+                <View style={{ position: "relative", width: "100%" }}>
+                  <TextInput
+                    style={{
+                      ...styles.input,
+                      marginTop: 16,
+                    }}
+                    placeholder="Пароль"
+                    placeholderTextColor={"#BDBDBD"}
+                    name="password"
+                    value={password}
+                    onChangeText={passwordHandler}
+                    secureTextEntry={isHiddenPassword}
+                    onFocus={() => setIsShownKeyboard(true)}
+                  />
+                  <Pressable
+                    onPress={togglePassword}
+                    style={{
+                      position: "absolute",
+                      right: 16,
+                      bottom: 8,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "#1B4371",
+                        fontSize: 16,
+                        paddingTop: 8,
+                        paddingBottom: 8,
+                      }}
+                    >
+                      {" "}
+                      {isHiddenPassword ? "Показати" : "Сховати"}
+                    </Text>
+                  </Pressable>
+                </View>
+                <Pressable
+                  style={({ pressed }) => [
+                    {
+                      backgroundColor: pressed ? "#c75502" : "#FF6C00",
+                    },
+                    styles.btn,
+                  ]}
+                  onPress={onLogin}
+                >
+                  <Text style={styles.btnTitle}>Увійти</Text>
+                </Pressable>
+                <TouchableOpacity>
+                  <Text style={styles.linkTitle}>
+                    {" "}
+                    Немає акаунту?{" "}
+                    <Text
+                      style={styles.linkUnderlined}
+                      onPress={() => navigation.navigate("Registration")}
+                    >
+                      Зареєструватися
+                    </Text>
+                  </Text>
+                </TouchableOpacity>
+              </KeyboardAvoidingView>
+            </View>
+          </TouchableWithoutFeedback>
+        </ImageBackground>
       </TouchableWithoutFeedback>
     </>
   );
@@ -147,7 +160,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    resizeMode: "cover",
+    // resizeMode: "cover",
     justifyContent: "flex-end",
   },
 
@@ -219,11 +232,5 @@ const styles = StyleSheet.create({
     textDecorationStyle: "solid",
     textDecorationColor: "#1b4371",
   },
-  // homeIndicator: {
-  //   width: 134,
-  //   height: 5,
-  //   borderRadius: 100,
-  //   background: "black",
-  //   marginBottom: 8,
-  // },
+
 });

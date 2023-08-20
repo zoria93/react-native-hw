@@ -1,57 +1,38 @@
-import React, { useState } from "react";
+import "react-native-gesture-handler";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+
+import { useRoute } from "./routes";
+import { AuthStateProvider } from "./components/AuthProvider";
+
+import { StatusBar } from "expo-status-bar";
 
 import {
-  StyleSheet,
-  Keyboard,
-  TouchableWithoutFeedback,
-  ImageBackground,
-} from "react-native";
-
-import RegistrationScreen from "./Screens/RegistrationScreen";
-import LoginScreen from "./Screens/LoginScreen";
-import PostsScreen from "./Screens/PostsScreen";
+  useFonts,
+  Roboto_400Regular,
+  Roboto_500Medium,
+  Roboto_700Bold,
+} from "@expo-google-fonts/roboto";
 
 export default function App() {
-  const [isShownKeyboard, setIsShownKeyboard] = useState(false);
+  const [fontsLoaded] = useFonts({
+    Roboto_400Regular,
+    Roboto_500Medium,
+    Roboto_700Bold,
+  });
 
-  const onPressWithoutFeedback = () => {
-    setIsShownKeyboard(false);
-    Keyboard.dismiss();
-  };
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  const routing = useRoute(true);
 
   return (
-    <>
-      <TouchableWithoutFeedback
-        style={styles.mainContainer}
-        onPress={onPressWithoutFeedback}
-      >
-        <ImageBackground
-          source={require("./assets/images/bg-image.png")}
-          style={styles.image}
-          resizeMode="cover"
-        >
-          {/* <RegistrationScreen
-            isShownKeyboard={isShownKeyboard}
-            setIsShownKeyboard={setIsShownKeyboard}
-          /> */}
-
-          <LoginScreen
-            isShownKeyboard={isShownKeyboard}
-            setIsShownKeyboard={setIsShownKeyboard}
-          />
-        </ImageBackground>
-      </TouchableWithoutFeedback>
-    </>
+    <AuthStateProvider>
+      <NavigationContainer>
+        {routing}
+        <StatusBar style="auto" />
+      </NavigationContainer>
+    </AuthStateProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  image: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-});
