@@ -13,6 +13,7 @@ import {
   Roboto_500Medium,
   Roboto_700Bold,
 } from "@expo-google-fonts/roboto";
+import { GlobalStateProvider } from "./components/GlobalStateProvider";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -28,11 +29,13 @@ export default function App() {
   const routing = useRoute(true);
 
   return (
-    <AuthStateProvider>
-      <NavigationContainer>
-        {routing}
-        <StatusBar style="auto" />
-      </NavigationContainer>
-    </AuthStateProvider>
+    <GlobalStateProvider>
+      <AuthStateProvider>
+        <NavigationContainer>
+          {routing}
+          <StatusBar style="auto" />
+        </NavigationContainer>
+      </AuthStateProvider>
+    </GlobalStateProvider>
   );
 }

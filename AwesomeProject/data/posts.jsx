@@ -1,7 +1,7 @@
 export const postsScreenArr = [
   {
     id: 1,
-    img: require("../assets/images/forest.jpg"),
+    img: "https://faktypro.com.ua/uploads/img/cikavi-fakti-pro-lisi-i-dereva.jpg",
     title: "Ліс",
     location: "Ukraine",
     comments: 8,
@@ -9,7 +9,7 @@ export const postsScreenArr = [
   },
   {
     id: 2,
-    img: require("../assets/images/sunset.jpg"),
+    img: "https://faktypro.com.ua/uploads/img/cikavi-fakti-pro-lisi-i-dereva.jpg",
     title: "Захід на Чорному морі",
     location: "Ukraine",
     comments: 3,
@@ -17,7 +17,7 @@ export const postsScreenArr = [
   },
   {
     id: 3,
-    img: require("../assets/images/oldhouse.jpg"),
+    img: "https://faktypro.com.ua/uploads/img/cikavi-fakti-pro-lisi-i-dereva.jpg",
     title: "Старий будиночок у Венеції",
     location: "Italy",
     comments: 50,
@@ -25,7 +25,7 @@ export const postsScreenArr = [
   },
   {
     id: 4,
-    img: require("../assets/images/oldhouse.jpg"),
+    img: "https://faktypro.com.ua/uploads/img/cikavi-fakti-pro-lisi-i-dereva.jpg",
     title: "Старий будиночок у Венеції",
     location: "Italy",
     comments: 50,

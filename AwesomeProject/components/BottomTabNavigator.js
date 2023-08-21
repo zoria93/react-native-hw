@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PostsScreen from "../Screens/PostsScreen";
 import CreatePostsScreen from "../Screens/CreatePostsScreen";
+import CreatePostsScreen2 from "../Screens/CreatePostsScreen2";
 import ProfileScreen from "../Screens/ProfileScreen";
 import MapScreen from "../Screens/MapScreen";
 import CameraScreen from "../Screens/CameraScreen";
@@ -79,7 +80,7 @@ export const BottomTabNavigator = () => {
         />
         <Tabs.Screen
           name="Створити публікацію"
-          component={CreatePostsScreen}
+          component={CreatePostsScreen2}
           options={{
             tabBarIcon: ({ focused, size, color }) => {
               return (

@@ -11,7 +11,7 @@ import MapIcon from "../assets/images/map-pin.svg";
 const ListItem = ({ item }) => {
   return (
     <View style={styles.listItem}>
-      <Image source={item.img} style={styles.cardImage} />
+      <Image source={{ uri: item.img }} style={styles.cardImage} />
       <Text style={styles.itemPostTitle}>{item.title}</Text>
       <View style={styles.itemCard}>
         <View style={styles.itemCardInfo}>
@@ -53,10 +53,13 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
   },
   cardImage: {
+    // resizeMode: "cover",
     resizeMode: "cover",
     borderRadius: 8,
     alignSelf: "center",
     width: "100%",
+
+    height: 240,
   },
   itemPostTitle: {
     marginTop: 8,

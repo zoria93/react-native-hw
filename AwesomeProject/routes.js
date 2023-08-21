@@ -28,6 +28,7 @@ export const useRoute = (isAuth) => {
           //   component={LoginScreenWrapper}
         />
         <MainStack.Screen name="Home" component={HomeScreen} />
+       
       </MainStack.Navigator>
     );
   }
