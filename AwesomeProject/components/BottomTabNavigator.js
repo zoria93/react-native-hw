@@ -123,7 +123,7 @@ export const BottomTabNavigator = () => {
             ),
           }}
         />
-        <Tabs.Screen
+        {/* <Tabs.Screen
           name="Map"
           component={MapScreen}
           options={{
@@ -142,7 +142,7 @@ export const BottomTabNavigator = () => {
               <UserIcon size={size} color={focused ? "#FF6C00" : color} />
             ),
           }}
-        />
+        /> */}
       </Tabs.Navigator>
     </View>
   );

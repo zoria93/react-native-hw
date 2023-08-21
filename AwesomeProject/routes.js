@@ -21,14 +21,12 @@ export const useRoute = (isAuth) => {
         <MainStack.Screen
           name="Login"
           component={LoginScreen}
-          //   options={{
-
-          //     setIsAuth: setIsAuth,
-          //   }}
-          //   component={LoginScreenWrapper}
+          // options={{
+          //   setIsAuth: isAuth,
+          // }}
+          // component={LoginScreenWrapper}
         />
         <MainStack.Screen name="Home" component={HomeScreen} />
-       
       </MainStack.Navigator>
     );
   }
